@@ -1,11 +1,37 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 
+    <parent>
+        <groupId>org.sonatype.oss</groupId>
+        <artifactId>oss-parent</artifactId>
+        <version>9</version>
+     </parent>
+
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>de.javagl</groupId>
     <artifactId>swing-tasks</artifactId>
     <version>0.0.1-SNAPSHOT</version>
+
+    <name>swing-tasks</name>
+    <description>Java Swing Task Execution Utilities</description>
+    <url>https://github.com/javagl</url>
+
+    <developers>
+        <developer>
+            <name>Marco Hutter</name>
+            <email>javagl@javagl.de</email>
+            <roles>
+                <role>developer</role>
+            </roles>
+        </developer>
+    </developers>
+
+    <scm>
+        <connection>scm:git:git@github.com:javagl/SwingTasks.git</connection>
+        <developerConnection>scm:git:git@github.com:javagl/SwingTasks.git</developerConnection>
+        <url>git@github.com:javagl/SwingTasks.git</url>
+    </scm>
 
     <licenses>
         <license>
