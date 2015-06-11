@@ -78,12 +78,12 @@ class ThrowableDialog
         
         StringBuilder sb = new StringBuilder();
         sb.append("<html>");
-        sb.append("An exception occurred:<br />");
-        sb.append("<br />");
+        sb.append("An exception occurred:<br>");
+        sb.append("<br>");
         if (thread != null)
         {
-            sb.append("Thread: "+thread+"<br />");
-            sb.append("<br />");
+            sb.append("Thread: "+thread+"<br>");
+            sb.append("<br>");
         }
         sb.append("Stack trace:");
         sb.append("</html>");

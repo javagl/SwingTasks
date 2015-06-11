@@ -51,8 +51,8 @@ class SwingTasks
     
     /**
      * Create a simple {@link SwingTask} that only calls the given 
-     * runnable and returns <code>null</code>.<br /> 
-     * <br />
+     * runnable and returns <code>null</code>.<br> 
+     * <br>
      * NOTE: Any exceptions caused by the runnable (including exceptions
      * that are caused by interrupting or canceling the {@link SwingTask})
      * will be ignored.
@@ -67,8 +67,8 @@ class SwingTasks
     
     /**
      * Create a simple {@link SwingTask} that only calls the given 
-     * supplier and returns its result.<br /> 
-     * <br />
+     * supplier and returns its result.<br> 
+     * <br>
      * NOTE: Any exceptions caused by the supplier (including exceptions
      * that are caused by interrupting or canceling the {@link SwingTask})
      * will be ignored.
@@ -86,8 +86,8 @@ class SwingTasks
      * Creates a simple {@link SwingTask} that calls the given supplier.
      * The result that is provided by the supplier will be obtained from
      * the {@link SwingTask}, and passed to the given consumer (if
-     * the consumer is not <code>null</code>)<br /> 
-     * <br />
+     * the consumer is not <code>null</code>)<br> 
+     * <br>
      * NOTE: Any exceptions caused by the supplier (including exceptions
      * that are caused by interrupting or canceling the {@link SwingTask})
      * will be ignored. If an exception occurs, then the consumer will
@@ -110,8 +110,8 @@ class SwingTasks
      * Creates a simple {@link SwingTask} that calls the given supplier.
      * The result that is provided by the supplier will be obtained from
      * the {@link SwingTask}, and passed to the given consumer (if
-     * the consumer is not <code>null</code>)<br /> 
-     * <br />
+     * the consumer is not <code>null</code>)<br> 
+     * <br>
      * NOTE: Any exceptions caused by the supplier (including exceptions
      * that are caused by interrupting or canceling the {@link SwingTask})
      * will be ignored and only be passed to the given 
@@ -141,8 +141,8 @@ class SwingTasks
      * task about the computation progress.
      * The result that is provided by the function will be obtained from
      * the {@link SwingTask}, and passed to the given consumer (if
-     * the consumer is not <code>null</code>)<br /> 
-     * <br />
+     * the consumer is not <code>null</code>)<br> 
+     * <br>
      * NOTE: Any exceptions caused by the function (including exceptions
      * that are caused by interrupting or canceling the {@link SwingTask})
      * will be ignored and only be passed to the given 
