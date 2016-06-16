@@ -2,10 +2,13 @@
 
 Utility classes for task execution in Swing
 
-The SwingTasks package contains utility classes for two kinds of programming tasks:
+The SwingTasks package contains utility classes for different kinds of 
+programming tasks related to threads and Swing:
 
 0. Executing a long-running computation on a background thread, while showing a dialog
 0. Executing a task repeatedly, and start/pause/stop the repeated execution
+0. Executing multiple tasks in parallel, using an executor service, and showing 
+   the progress of the task execution in the GUI
 
 
 Long-running tasks
@@ -111,4 +114,37 @@ may be attached to arbitrary Swing components, or integrated into an existing Sw
 using the `TaskRunnerControlPanel`, which contains buttons that execute these actions.
 
 
+Multiple tasks in an executor service
+------------------
+
+The [javax.util.concurrent.ExecutorService](https://docs.oracle.com/javase/8/docs/api/java/util/concurrent/ExecutorService.html) class offers an infrastructure for simple, parallel execution of multiple task. The tasks may be 
+submitted to the executor service as `Runnable` or `Callable<?>` instances. The executor
+service will return a `Future<?>` that describes the result of the asynchronous computation.
+
+Beyond that, an executor service is mainly a "black box". It is not easily possible to
+observe the execution of the tasks, or to obtain progress information about them (e.g.
+to see how many tasks are currently running, or caused an exception). 
+
+The classes in the `de.javagl.swing.tasks.executors` package aim at alleviating 
+this problem. The `ObservableExecutors` class allows creating instances of 
+an `ObservableExecutorService`. This executor service allows registering an
+`ExecutorObserver` that is informed about the tasks that are scheduled and executed.
+
+The `ObservableExecutorPanel` is a panel that can show an `ObservableExecutorService`,
+and displays information about the running tasks, including their status and - if the tasks 
+implement the `ProgressTask` interface - progress information:
+
+![SwingTasksExecutors01.png](/screenshots/SwingTasksExecutors01.png)   
+
+
+
+
+Change log:
+------------------
+
+20??-??-?? : Version 0.0.2-SNAPSHOT
+* Added executors package 
+
+2015-06-11 : Version 0.0.1
+* Initial release
 

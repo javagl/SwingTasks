@@ -27,6 +27,7 @@ import de.javagl.swing.tasks.SwingTaskExecutors;
 /**
  * A test for various functionalities of the {@link SwingTask}s
  */
+@SuppressWarnings("javadoc")
 public class SwingTaskTest
 {
     /**
@@ -99,7 +100,6 @@ public class SwingTaskTest
     }
     
     
-
     private static JButton createSimpleButton(
         final boolean modal, final boolean cancelable)
     {
