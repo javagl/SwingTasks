@@ -111,12 +111,15 @@ class SwingTaskDialog extends JDialog
         {
             messageArea.setText(message);
         }
-        mainPanel.add(messageArea, BorderLayout.NORTH);
+        mainPanel.add(messageArea, BorderLayout.CENTER);
+        
+        JPanel southPanel = new JPanel(new BorderLayout());
+        mainPanel.add(southPanel, BorderLayout.SOUTH);
         
         progressBar = new JProgressBar(0, 100);
         progressBar.setStringPainted(true);
         progressBar.setIndeterminate(true);
-        mainPanel.add(progressBar, BorderLayout.CENTER);
+        southPanel.add(progressBar, BorderLayout.CENTER);
         
         if (cancelable)
         {
@@ -131,16 +134,12 @@ class SwingTaskDialog extends JDialog
             });
             JPanel p = new JPanel(new FlowLayout());
             p.add(cancelButton);
-            mainPanel.add(p, BorderLayout.SOUTH);
+            southPanel.add(p, BorderLayout.SOUTH);
         }
         
         getContentPane().add(mainPanel);
         pack();
         setLocationRelativeTo(parentComponent);
-
-        // Do this here so that it does not affect the preferred
-        // size when calling pack() ...
-        progressBar.setStringPainted(false);
     }
     
     /**
