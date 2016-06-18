@@ -143,6 +143,7 @@ Change log:
 ------------------
 
 20??-??-?? : Version 0.0.2-SNAPSHOT
+* Make `SwingTaskView` configurable
 * Added executors package 
 
 2015-06-11 : Version 0.0.1
