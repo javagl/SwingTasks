@@ -277,8 +277,7 @@ public final class SwingTaskExecutor<T>
             wasFinishedLock.unlock();
         }
         decisionWaiter.countDown();
-        swingTaskView.setVisible(false);
-        swingTaskView.dispose();
+        swingTaskView.taskFinished(t);
         
     }
     
@@ -357,7 +356,7 @@ public final class SwingTaskExecutor<T>
             decisionWaiter.await();
             if (haveToShowView)
             {
-                swingTaskView.setVisible(true);
+                swingTaskView.show();
             }
         }
         catch (InterruptedException e)

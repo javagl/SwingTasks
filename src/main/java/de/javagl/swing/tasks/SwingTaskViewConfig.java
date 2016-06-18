@@ -34,7 +34,7 @@ import java.awt.Window;
  * An instance of such a class may be passed to a {@link SwingTaskViewFactory}
  * to create a new {@link SwingTaskView}.
  */
-interface SwingTaskViewConfig
+public interface SwingTaskViewConfig
 {
     /**
      * Returns the {@link SwingTask} that is shown in the {@link SwingTaskView}

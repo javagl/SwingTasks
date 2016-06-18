@@ -33,14 +33,13 @@ package de.javagl.swing.tasks;
  * {@link SwingTask}, the {@link SwingTaskExecutor} will show, update 
  * and hide this view according to its settings. 
  */
-interface SwingTaskView
+public interface SwingTaskView
 {
     /**
-     * Set whether this view should be visible
-     * 
-     * @param visible Whether this view should be visible
+     * Will be called when the task was started and the decision to show
+     * the task view was made.
      */
-    void setVisible(boolean visible);
+    void show();
     
     /**
      * Set the current progress of the {@link SwingTask}. This will
@@ -59,7 +58,11 @@ interface SwingTaskView
     void setMessage(String message);
     
     /**
-     * Dispose this view, after the task has finished
+     * Will be called when the task finished. This will usually cause the
+     * view to be made invisible and disposed.
+     * 
+     * @param t An exception that may have been caused by the task. If the
+     * task completed normally, this will be <code>null</code>. 
      */
-    void dispose();
+    void taskFinished(Throwable t);
 }

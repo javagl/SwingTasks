@@ -29,11 +29,18 @@ package de.javagl.swing.tasks;
 /**
  * Interface for classes that can create a {@link SwingTaskView}
  */
-interface SwingTaskViewFactory
+public interface SwingTaskViewFactory
 {
     /**
      * Creates a new {@link SwingTaskView} based on the given 
-     * {@link SwingTaskViewConfig}
+     * {@link SwingTaskViewConfig}. This method will be called by a 
+     * {@link SwingTaskExecutorBuilder} when the {@link SwingTaskExecutor} is 
+     * created for a particular {@link SwingTask}. The 
+     * {@link SwingTaskExecutor} will then call the methods of the 
+     * {@link SwingTaskView} to update the view depending on the execution
+     * status of the task.<br>
+     * <br>
+     * This method may not return <code>null</code>.  
      * 
      * @param swingTaskViewConfig The {@link SwingTaskViewConfig}
      * @return The {@link SwingTaskView}

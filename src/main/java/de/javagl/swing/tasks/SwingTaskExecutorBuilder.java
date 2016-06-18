@@ -107,7 +107,7 @@ public final class SwingTaskExecutorBuilder<T>
      * The {@link SwingTaskViewFactory} that will create
      * the {@link SwingTaskView}
      */
-    private final SwingTaskViewFactory swingTaskViewFactory; 
+    private SwingTaskViewFactory swingTaskViewFactory; 
     
     /**
      * Starts the creation of a new {@link SwingTaskExecutor}
@@ -129,9 +129,9 @@ public final class SwingTaskExecutorBuilder<T>
         this.millisToPopup = 1000;
         this.uncaughtExceptionHandler = null;
         this.dialogUncaughtExceptionHandlerWasSet = false;
-        
-        // This is not configurable until now
-        this.swingTaskViewFactory = new DefaultSwingTaskViewFactory();
+
+        this.swingTaskViewFactory = swingTaskViewConfig ->
+            SwingTaskViews.create(swingTaskViewConfig);
     }
     
     /**
@@ -276,6 +276,21 @@ public final class SwingTaskExecutorBuilder<T>
         this.dialogUncaughtExceptionHandlerWasSet = true;
         return this;
     }
+    
+    /**
+     * Set the factory that will be called to create the {@link SwingTaskView}
+     * that will be displayed while the task is running.
+     * 
+     * @param swingTaskViewFactory The {@link SwingTaskViewFactory}
+     * @return This builder
+     */
+    public SwingTaskExecutorBuilder<T> setSwingTaskViewFactory(
+        SwingTaskViewFactory swingTaskViewFactory)
+    {
+        this.swingTaskViewFactory = swingTaskViewFactory;
+        return this;
+    }
+    
     
     /**
      * Build the {@link SwingTaskExecutor} based on the current

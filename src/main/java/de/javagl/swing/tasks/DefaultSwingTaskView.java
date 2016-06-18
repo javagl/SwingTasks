@@ -26,6 +26,8 @@
  */
 package de.javagl.swing.tasks;
 
+import javax.swing.JComponent;
+
 /**
  * Default implementation of a {@link SwingTaskView} that is backed
  * by a {@link SwingTaskDialog}
@@ -41,22 +43,31 @@ class DefaultSwingTaskView implements SwingTaskView
      * Creates a new view based on the given {@link SwingTaskViewConfig}
      * 
      * @param swingTaskViewConfig The {@link SwingTaskViewConfig}
+     * @param accessory An optional accessory component. If this is not
+     * <code>null</code>, then it will be shown in the center of the
+     * resulting {@link SwingTaskDialog}.
+     * @param autoCloseWhenTaskFinished Whether the dialog should be closed
+     * when the task was finished.
      */
-    DefaultSwingTaskView(SwingTaskViewConfig swingTaskViewConfig)
+    DefaultSwingTaskView(
+        SwingTaskViewConfig swingTaskViewConfig, 
+        JComponent accessory,
+        boolean autoCloseWhenTaskFinished)
     {
         swingTaskDialog = new SwingTaskDialog(
             swingTaskViewConfig.getParentWindow(),
             swingTaskViewConfig.getParentComponent(),
             swingTaskViewConfig.getTitle(),
             swingTaskViewConfig.getSwingTask(),
-            swingTaskViewConfig.isModal(),
-            swingTaskViewConfig.isCancelable());
+            swingTaskViewConfig.isModal(), 
+            swingTaskViewConfig.isCancelable(),
+            accessory, autoCloseWhenTaskFinished);
     }
 
     @Override
-    public void setVisible(boolean visible)
+    public void show()
     {
-        swingTaskDialog.setVisible(visible);
+        swingTaskDialog.setVisible(true);
     }
     
     @Override
@@ -72,9 +83,9 @@ class DefaultSwingTaskView implements SwingTaskView
     }
 
     @Override
-    public void dispose()
+    public void taskFinished(Throwable t)
     {
-        swingTaskDialog.dispose();
+        swingTaskDialog.taskFinished(t);
     }
 
 }

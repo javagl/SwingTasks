@@ -38,6 +38,7 @@ import java.awt.event.ActionListener;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
+import javax.swing.JComponent;
 import javax.swing.JDialog;
 import javax.swing.JPanel;
 import javax.swing.JProgressBar;
@@ -67,6 +68,28 @@ class SwingTaskDialog extends JDialog
     private final JProgressBar progressBar;
     
     /**
+     * The panel containing the buttons (e.g. the button for cancelling)
+     */
+    private final JPanel buttonsPanel;
+    
+    /**
+     * Whether this dialog should be closed when the task was finished
+     */
+    private final boolean autoCloseWhenTaskFinished;
+    
+    /**
+     * The button for cancelling the task, or <code>null</code> if the
+     * task was not cancellable
+     */
+    private final JButton cancelButton;
+
+    /**
+     * The button for closing the dialog, or <code>null</code> when the
+     * dialog closes automatically
+     */
+    private final JButton closeButton;
+    
+    /**
      * Creates a new task dialog
      * 
      * @param parentWindow The parent window
@@ -78,13 +101,21 @@ class SwingTaskDialog extends JDialog
      * @param modal Whether the dialog should be modal
      * @param cancelable Whether a button for canceling the {@link SwingTask}
      * should be available
+     * @param accessory The optional accessory component. If this is not 
+     * <code>null</code>, then this component will be shown in the center 
+     * of the dialog. 
+     * @param autoCloseWhenTaskFinished Whether this dialog should be closed
+     * when the task was finished.
      */
     SwingTaskDialog(Window parentWindow, Component parentComponent, 
         String title, final SwingTask<?,?> swingTask, 
-        boolean modal, boolean cancelable)
+        boolean modal, boolean cancelable, 
+        JComponent accessory, boolean autoCloseWhenTaskFinished)
     {
         super(parentWindow, title);
-            
+        
+        this.autoCloseWhenTaskFinished = autoCloseWhenTaskFinished;
+        
         if (modal)
         {
             setModalityType(ModalityType.APPLICATION_MODAL);
@@ -96,6 +127,9 @@ class SwingTaskDialog extends JDialog
         JPanel mainPanel = new JPanel(new BorderLayout(10, 10));
         mainPanel.setBorder(BorderFactory.createEmptyBorder(15, 10, 5, 10));
         
+        JPanel centerPanel = new JPanel(new BorderLayout());
+        mainPanel.add(centerPanel, BorderLayout.CENTER);
+
         messageArea = new JTextArea(1, 30);
         messageArea.setFont(new Font("Dialog", Font.BOLD, 12));
         messageArea.setEditable(false);
@@ -111,7 +145,11 @@ class SwingTaskDialog extends JDialog
         {
             messageArea.setText(message);
         }
-        mainPanel.add(messageArea, BorderLayout.CENTER);
+        centerPanel.add(messageArea, BorderLayout.CENTER);
+        if (accessory != null)
+        {
+            centerPanel.add(accessory, BorderLayout.SOUTH);
+        }
         
         JPanel southPanel = new JPanel(new BorderLayout());
         mainPanel.add(southPanel, BorderLayout.SOUTH);
@@ -121,9 +159,11 @@ class SwingTaskDialog extends JDialog
         progressBar.setIndeterminate(true);
         southPanel.add(progressBar, BorderLayout.CENTER);
         
+        buttonsPanel = new JPanel(new FlowLayout());
+        southPanel.add(buttonsPanel, BorderLayout.SOUTH);
         if (cancelable)
         {
-            JButton cancelButton = new JButton("Cancel");
+            cancelButton = new JButton("Cancel");
             cancelButton.addActionListener(new ActionListener()
             {
                 @Override
@@ -132,9 +172,31 @@ class SwingTaskDialog extends JDialog
                     swingTask.cancel(true);
                 }
             });
-            JPanel p = new JPanel(new FlowLayout());
-            p.add(cancelButton);
-            southPanel.add(p, BorderLayout.SOUTH);
+            buttonsPanel.add(cancelButton);
+        }
+        else
+        {
+            cancelButton = null;
+        }
+        
+        if (!autoCloseWhenTaskFinished)
+        {
+            closeButton = new JButton("Close");
+            closeButton.addActionListener(new ActionListener()
+            {
+                @Override
+                public void actionPerformed(ActionEvent e)
+                {
+                    setVisible(false);
+                    dispose();
+                }
+            });
+            closeButton.setEnabled(false);
+            buttonsPanel.add(closeButton);
+        }
+        else
+        {
+            closeButton = null;
         }
         
         getContentPane().add(mainPanel);
@@ -184,6 +246,30 @@ class SwingTaskDialog extends JDialog
             progressBar.setStringPainted(true);
             progressBar.setString(percent+"%");
         }
+    }
+
+    /**
+     * Will be called when the task was finished.
+     * 
+     * @param t The throwable that may have been caused by the task,
+     * or <code>null</code>
+     */
+    void taskFinished(Throwable t)
+    {
+        if (autoCloseWhenTaskFinished)
+        {
+            setVisible(false);
+            dispose();
+        }
+        else
+        {
+            closeButton.setEnabled(true);
+            if (cancelButton != null)
+            {
+                cancelButton.setEnabled(false);
+            }
+        }
+            
     }
     
     
