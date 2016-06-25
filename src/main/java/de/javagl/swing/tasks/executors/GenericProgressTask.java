@@ -57,9 +57,10 @@ public final class GenericProgressTask<T> implements Callable<T>, ProgressTask
     private Callable<T> callable;
     
     /**
-     * Creates a new task with the given description. The callable that 
-     * should be executed by this task can be set with 
-     * {@link #setCallable(Callable)}. If no callable is set, then
+     * Creates a new task with the given description. The description should
+     * be a short string that is suitable for using it as a label for this
+     * task, in a UI. The callable that should be executed by this task can be 
+     * set with {@link #setCallable(Callable)}. If no callable is set, then
      * this task simply returns <code>null</code>.
      * 
      * @param description The description
