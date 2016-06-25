@@ -53,9 +53,10 @@ public final class TaskView
     private Color foregroundColor;
     
     /**
-     * The progress of the task, is available.
+     * The progress of the task, if available. A negative value indicates
+     * that the progress is not known. 
      */
-    private double progress;
+    private double progress = -1.0;
     
     /**
      * The throwable that may have been cause by the task

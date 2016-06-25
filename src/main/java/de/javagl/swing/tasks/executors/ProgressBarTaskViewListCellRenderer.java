@@ -86,6 +86,7 @@ class ProgressBarTaskViewListCellRenderer implements ListCellRenderer<Object>
             TaskView taskView = (TaskView)value;
             double progress = taskView.getProgress();
             int percent = (int)(progress * 100);
+            progressBar.setStringPainted(progress >= 0);
             progressBar.setValue(Math.min(100, Math.max(0, percent)));
         }
         return component;
