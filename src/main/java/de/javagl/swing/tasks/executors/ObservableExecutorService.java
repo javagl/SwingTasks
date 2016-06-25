@@ -223,7 +223,7 @@ public class ObservableExecutorService extends ThreadPoolExecutor
             }
         }
         
-        if (activeTaskCounter.get() != 0)
+        if (activeTaskCounter.decrementAndGet() == 0)
         {
             for (ExecutorObserver executorObserver : executorObservers)
             {
