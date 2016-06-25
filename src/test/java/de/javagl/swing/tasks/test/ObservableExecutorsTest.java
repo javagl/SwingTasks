@@ -13,7 +13,10 @@ import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.util.Random;
 import java.util.concurrent.Callable;
+import java.util.concurrent.CompletionService;
+import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -28,6 +31,7 @@ import javax.swing.event.ListSelectionListener;
 import de.javagl.swing.tasks.ProgressListener;
 import de.javagl.swing.tasks.executors.ExecutorObserver;
 import de.javagl.swing.tasks.executors.GenericProgressTask;
+import de.javagl.swing.tasks.executors.ObservableExecutorCompletionService;
 import de.javagl.swing.tasks.executors.ObservableExecutorPanel;
 import de.javagl.swing.tasks.executors.ObservableExecutorService;
 import de.javagl.swing.tasks.executors.ObservableExecutors;
@@ -196,6 +200,13 @@ public class ObservableExecutorsTest
         p.add(addRandomProgressTasksWithErrorButton);
         addRandomProgressTasksWithErrorButton.addActionListener(
             e -> addRandomProgressTasksWithError(observableExecutorService));
+        
+        JButton addRandomProgressTasksWithCompletionServiceButton = 
+            new JButton("Add random progress tasks with completion service");
+        p.add(addRandomProgressTasksWithCompletionServiceButton);
+        addRandomProgressTasksWithCompletionServiceButton.addActionListener(
+            e -> addRandomProgressTasksWithCompletionService(
+                observableExecutorService));
         
         JScrollPane scrollPane = new JScrollPane(statusTextArea);
         scrollPane.setPreferredSize(new Dimension(400, 1000));
@@ -367,5 +378,65 @@ public class ObservableExecutorsTest
     
 
     
+    /**
+     * Add some random tasks to the given {@link ObservableExecutorService}
+     * using an {@link ObservableExecutorCompletionService}
+     * 
+     * @param observableExecutorService The {@link ObservableExecutorService}
+     */
+    private static void addRandomProgressTasksWithCompletionService(
+        ObservableExecutorService observableExecutorService)
+    {
+        ObservableExecutorCompletionService<Object> completionService =
+            new ObservableExecutorCompletionService<Object>(
+                observableExecutorService);
+        for (int i=0; i<10; i++)
+        {
+            completionService.submit(
+                createDummyProgressTask(false));
+        }
+        
+        Thread thread = new Thread(new Runnable()
+        {
+            @Override
+            public void run()
+            {
+                processResults(completionService, 10);
+            }
+        });
+        thread.setDaemon(true);
+        thread.start();
+    }
+
+    /**
+     * Process the results of the given completion service (to be called
+     * in an own thread)
+     *  
+     * @param completionService The completion service
+     * @param n The number of results
+     */
+    private static void processResults(
+        CompletionService<Object> completionService, int n)
+    {
+        for (int i = 0; i < n; i++)
+        {
+            try
+            {
+                Future<Object> future = completionService.take();
+                Object result = future.get();
+                System.out.println("Obtained " + (i + 1) + " of " + n + 
+                    " results from completion service: " + future + 
+                    " (" + result + ")");
+            }
+            catch (InterruptedException e)
+            {
+                Thread.currentThread().interrupt();
+            }
+            catch (ExecutionException e)
+            {
+                e.printStackTrace();
+            }
+        }
+    }
     
 }

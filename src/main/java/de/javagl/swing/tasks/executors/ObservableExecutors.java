@@ -73,9 +73,15 @@ public class ObservableExecutors
     /**
      * Utility method to obtain the task that may be wrapped in the 
      * given task. If the given task is an {@link ObservableTask},
-     * then its <code>Runnable</code> or <code>Callable</code> will
-     * be extracted, and returned if it is assignable to the given 
-     * type. Otherwise, <code>null</code> is returned.
+     * then this method will obtain the
+     * {@link ObservableTask#getRunnable() runnable} of this task,
+     * repeatedly, until it finds a runnable that is <code>null</code> or
+     * no {@link ObservableTask}.<br>
+     * <br>
+     * From the last {@link ObservableTask}, the <code>Runnable</code> and
+     * <code>Callable</code> will be extracted. If either of them is not
+     * <code>null</code>, and assignable to the given type, it will be
+     * returned. Otherwise, <code>null</code> is returned.
      * 
      * @param <T> The type of the inner task
      * 
@@ -85,9 +91,24 @@ public class ObservableExecutors
      */
     public static <T> T getInnerTask(Runnable task, Class<T> type)
     {
-        if (task instanceof ObservableTask<?>)
+        Runnable currentTask = task;
+        while (true)
         {
-            ObservableTask<?> observableTask = (ObservableTask<?>)task;
+            if (currentTask instanceof ObservableTask<?>)
+            {
+                ObservableTask<?> currentObservableTask = 
+                    (ObservableTask<?>) currentTask;
+                Runnable nextTask = currentObservableTask.getRunnable();
+                if (!(nextTask instanceof ObservableTask<?>))
+                {
+                    break;
+                }
+                currentTask = nextTask;
+            }
+        }
+        if (currentTask instanceof ObservableTask<?>)
+        {
+            ObservableTask<?> observableTask = (ObservableTask<?>)currentTask;
             Runnable innerRunnable = observableTask.getRunnable();
             if (innerRunnable != null)
             {
