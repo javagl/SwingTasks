@@ -151,7 +151,10 @@ implement the `ProgressTask` interface - progress information:
 Change log:
 ------------------
 
-20??-??-?? : Version 0.0.2-SNAPSHOT
+20??-??-?? : Version 0.0.3-SNAPSHOT
+* ...
+
+2016-06-27 : Version 0.0.2
 * Make `SwingTaskView` configurable
 * Added executors package 
 
