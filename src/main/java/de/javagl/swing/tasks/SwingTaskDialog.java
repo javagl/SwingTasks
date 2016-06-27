@@ -263,6 +263,7 @@ class SwingTaskDialog extends JDialog
         }
         else
         {
+            setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
             closeButton.setEnabled(true);
             if (cancelButton != null)
             {
