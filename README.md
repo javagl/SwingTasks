@@ -2,6 +2,15 @@
 
 Utility classes for task execution in Swing
 
+Maven coordinates:
+```
+<dependency>
+  <groupId>de.javagl</groupId>
+  <artifactId>swing-tasks</artifactId>
+  <version>0.0.2</version>
+</dependency>
+```
+
 The SwingTasks package contains utility classes for different kinds of 
 programming tasks related to threads and Swing:
 
