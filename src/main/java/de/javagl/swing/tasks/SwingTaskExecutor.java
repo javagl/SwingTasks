@@ -336,6 +336,7 @@ public final class SwingTaskExecutor<T>
             }
             catch (InterruptedException e)
             {
+                Thread.currentThread().interrupt();
                 throw new RuntimeException(e);
             }
         }

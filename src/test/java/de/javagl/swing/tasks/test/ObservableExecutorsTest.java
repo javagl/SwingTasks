@@ -269,7 +269,8 @@ public class ObservableExecutorsTest
                 } 
                 catch (InterruptedException e)
                 {
-                    // Ignored here
+                    Thread.currentThread().interrupt();
+                    throw new RuntimeException("Interrupted");
                 }
                 if (causeError)
                 {
@@ -353,11 +354,12 @@ public class ObservableExecutorsTest
                     } 
                     catch (InterruptedException e)
                     {
-                        // Ignored here
+                        Thread.currentThread().interrupt();
+                        throw new RuntimeException("Interrupted");
                     }
                     progressListener.progressChanged(i / 9.0);
                     progressListener.messageChanged(", step "+i);
-                    if (causeError)
+                    if (i > 5 && causeError)
                     {
                         throw new RuntimeException(
                             "Exception, thrown for testing");

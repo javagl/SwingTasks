@@ -463,6 +463,7 @@ public final class TaskRunner
                     }
                     else
                     {
+                        Thread.currentThread().interrupt();
                         log("Task Thread was interrupted");
                     }
                     task.finished(false, t);

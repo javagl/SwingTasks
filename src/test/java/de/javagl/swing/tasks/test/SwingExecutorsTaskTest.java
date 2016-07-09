@@ -108,7 +108,7 @@ public class SwingExecutorsTaskTest
         // and an ObservableExectutorPanel that will be added to
         // the accessory
         ObservableExecutorService observableExecutorService = 
-            ObservableExecutors.newFixedThreadPool(4);
+            ObservableExecutors.newCachedThreadPool();
         ObservableExecutorPanel observableExecutorPanel = 
             new ObservableExecutorPanel();
         observableExecutorPanel.setObservableExecutorService(
@@ -191,6 +191,7 @@ public class SwingExecutorsTaskTest
                     }
                     catch (InterruptedException e)
                     {
+                        Thread.currentThread().interrupt();
                         System.out.println("Task was interrupted");
                         shutdownNowAndWait(executorService);
                         return null;
@@ -216,7 +217,7 @@ public class SwingExecutorsTaskTest
                 }
                 catch (InterruptedException e)
                 {
-                    // Ignored
+                    Thread.currentThread().interrupt();
                     System.out.println("Waiting was interrupted");
                 }
             }
@@ -243,7 +244,7 @@ public class SwingExecutorsTaskTest
     private static Callable<Object> createDummyProgressTask(boolean causeError)
     {
         int id = taskIdCounter++;
-        int delayMs = 1000 + random.nextInt(2000);
+        int delayMs = 2000 + random.nextInt(2000);
         
         GenericProgressTask<Object> progressTask = 
             new GenericProgressTask<Object>(
@@ -265,11 +266,13 @@ public class SwingExecutorsTaskTest
                     } 
                     catch (InterruptedException e)
                     {
-                        return;
+                        Thread.currentThread().interrupt();
+                        throw new RuntimeException(
+                            "Interrupted " + Thread.currentThread());
                     }
                     progressListener.progressChanged(i / 9.0);
                     progressListener.messageChanged(", step "+i);
-                    if (causeError)
+                    if (causeError && i > 5)
                     {
                         throw new RuntimeException(
                             "Exception, thrown for testing");

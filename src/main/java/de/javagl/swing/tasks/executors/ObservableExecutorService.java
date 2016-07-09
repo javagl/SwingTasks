@@ -205,6 +205,7 @@ public class ObservableExecutorService extends ThreadPoolExecutor
             } 
             catch (InterruptedException e)
             {
+                Thread.currentThread().interrupt();
                 throwable = e;
             }
         }
