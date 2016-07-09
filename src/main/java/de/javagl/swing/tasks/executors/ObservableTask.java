@@ -41,12 +41,12 @@ class ObservableTask<V> extends FutureTask<V>
     /**
      * The optional callable that may have been given in the constructor
      */
-    private Callable<V> callable;
+    private final Callable<V> callable;
     
     /**
      * The optional runnable that may have been given in the constructor
      */
-    private Runnable runnable;
+    private final Runnable runnable;
     
     /**
      * Creates a new observable task for the given callable
@@ -57,8 +57,9 @@ class ObservableTask<V> extends FutureTask<V>
     {
         super(callable);
         this.callable = callable;
+        this.runnable = null;
     }
-
+    
     /**
      * Create a new observable task for the given runnable
      * 
@@ -69,6 +70,7 @@ class ObservableTask<V> extends FutureTask<V>
     {
         super(runnable, result);
         this.runnable = runnable;
+        this.callable = null;
     }
     
     /**

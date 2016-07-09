@@ -116,13 +116,13 @@ public final class GenericProgressTask<T> implements Callable<T>, ProgressTask
     @Override
     public void addProgressListener(ProgressListener progressListener)
     {
-        this.dispatchingProgressListener.addProgressListener(progressListener);
+        dispatchingProgressListener.addProgressListener(progressListener);
     }
     
     @Override
     public void removeProgressListener(ProgressListener progressListener)
     {
-        this.dispatchingProgressListener.removeProgressListener(progressListener);
+        dispatchingProgressListener.removeProgressListener(progressListener);
     }
     
     @Override
