@@ -32,7 +32,6 @@ import java.util.concurrent.Callable;
 import java.util.concurrent.CompletionService;
 import java.util.concurrent.Future;
 import java.util.concurrent.LinkedBlockingQueue;
-import java.util.concurrent.RunnableFuture;
 import java.util.concurrent.TimeUnit;
 
 
@@ -60,29 +59,34 @@ public class ObservableExecutorCompletionService<V>
      * Extension of {@link ObservableTask} that puts the completed tasks
      * into the {@link #completionQueue}
      */
-    private class QueueingObservableTask extends ObservableTask<Void> 
+    private class QueueingObservableTask extends ObservableTask<V> 
     {
-        /**
-         * The runnable future that this task was wrapped around
-         */
-        private final RunnableFuture<V> runnableFuture;
-
         /**
          * Creates a new instance that wraps the given task
          * 
-         * @param runnableFuture The task
+         * @param runnable The task
+         * @param result The result
          */
-        QueueingObservableTask(RunnableFuture<V> runnableFuture) 
+        QueueingObservableTask(Runnable runnable, V result) 
         {
-            super(runnableFuture, null);
-            this.runnableFuture = runnableFuture;
+            super(runnable, result);
+        }
+        
+        /**
+         * Creates a new instance that wraps the given task
+         * 
+         * @param callable The task
+         */
+        QueueingObservableTask(Callable<V> callable)
+        {
+            super(callable);
         }
         
         @Override
         protected void done() 
         {
             super.done();
-            completionQueue.add(runnableFuture); 
+            completionQueue.add(this); 
         }
     }
 
@@ -124,19 +128,20 @@ public class ObservableExecutorCompletionService<V>
     public Future<V> submit(Callable<V> task)
     {
         Objects.requireNonNull(task, "The task may not be null");
-        RunnableFuture<V> f = observableExecutorService.newTaskFor(task);
-        observableExecutorService.execute(new QueueingObservableTask(f));
-        return f;
+        QueueingObservableTask future =
+            new QueueingObservableTask(task);
+        observableExecutorService.execute(future);
+        return future;
     }
 
     @Override
     public Future<V> submit(Runnable task, V result)
     {
         Objects.requireNonNull(task, "The task may not be null");
-        RunnableFuture<V> f =
-            observableExecutorService.newTaskFor(task, result);
-        observableExecutorService.execute(new QueueingObservableTask(f));
-        return f;
+        QueueingObservableTask future =
+            new QueueingObservableTask(task, result);
+        observableExecutorService.execute(future);
+        return future;
     }
 
     @Override
