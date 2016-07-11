@@ -151,8 +151,11 @@ implement the `ProgressTask` interface - progress information:
 Change log:
 ------------------
 
-20??-??-?? : Version 0.0.3-SNAPSHOT
-* ...
+20??-??-?? : Version 0.0.4-SNAPSHOT
+
+2016-07-11 : Version 0.0.3
+* Cleaner handling of thread interrupted status
+* Avoid repeated wrapping of ObservableTask
 
 2016-06-27 : Version 0.0.2
 * Make `SwingTaskView` configurable
