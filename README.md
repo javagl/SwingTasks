@@ -7,7 +7,7 @@ Maven coordinates:
 <dependency>
   <groupId>de.javagl</groupId>
   <artifactId>swing-tasks</artifactId>
-  <version>0.0.2</version>
+  <version>0.0.3</version>
 </dependency>
 ```
 
