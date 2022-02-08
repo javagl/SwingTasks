@@ -277,8 +277,22 @@ public final class SwingTaskExecutor<T>
             wasFinishedLock.unlock();
         }
         decisionWaiter.countDown();
-        swingTaskView.taskFinished(t);
         
+        if (SwingUtilities.isEventDispatchThread())
+        {
+            swingTaskView.taskFinished(t);
+        }
+        else
+        {
+            SwingUtilities.invokeLater(new Runnable()
+            {
+                @Override
+                public void run()
+                {
+                    swingTaskView.taskFinished(t);
+                }
+            });
+        }
     }
     
     /**
