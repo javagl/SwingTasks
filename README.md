@@ -7,7 +7,7 @@ Maven coordinates:
 <dependency>
   <groupId>de.javagl</groupId>
   <artifactId>swing-tasks</artifactId>
-  <version>0.0.3</version>
+  <version>0.0.4</version>
 </dependency>
 ```
 
@@ -151,7 +151,10 @@ implement the `ProgressTask` interface - progress information:
 Change log:
 ------------------
 
-20??-??-?? : Version 0.0.4-SNAPSHOT
+20??-??-?? : Version 0.0.5-SNAPSHOT
+
+2022-11-26 : Version 0.0.4
+* Fixed a bug that could prevent a `SwingTaskView` from being closed
 
 2016-07-11 : Version 0.0.3
 * Cleaner handling of thread interrupted status
