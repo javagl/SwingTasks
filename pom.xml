@@ -10,7 +10,7 @@
 
     <groupId>de.javagl</groupId>
     <artifactId>swing-tasks</artifactId>
-    <version>0.0.4</version>
+    <version>0.0.5-SNAPSHOT</version>
 
     <name>swing-tasks</name>
     <description>Java Swing Task Execution Utilities</description>
